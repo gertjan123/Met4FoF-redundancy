@@ -3,7 +3,7 @@
 Introduction
 ------------
 
-This repository contains code written for the EMPIR 17IND12 project Met4FoF written by VSL.
+This repository contains code written for the EMPIR 17IND12 project Met4FoF with a focus on task 2.3 which concerns redundant measurements.
 
 Files included
 --------------
@@ -18,3 +18,8 @@ This reposistory includes the following files:
 Functions included
 ------------------
 
+
+Acknowledgment
+--------------
+
+This has been performed in the EMPIR 17IND12 project “Metrology for the Factory of the Future” (www.met4fof.eu). This project has received funding from the EMPIR programme co-financed by the Participating States and from the European Union's Horizon 2020 research and innovation programme.
