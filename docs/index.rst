@@ -1,4 +1,4 @@
-Welcome to the Met4FoF-redundacny documentation page!
+Welcome to the Met4FoF-redundancy documentation page!
 =====================================================
 
 .. toctree::
