@@ -28,8 +28,8 @@ References
 
 .. [Kok01]  G. Kok and P. Harris, "Quantifying Metrological Redundancy in an Industry 4.0 Environment," 
             2020 IEEE International Workshop on Metrology for Industry 4.0 & IoT, Roma, Italy, 2020, 
-			pp. 464-468, doi: 10.1109/MetroInd4.0IoT48571.2020.9138235.
+	    pp. 464-468, doi: 10.1109/MetroInd4.0IoT48571.2020.9138235.
 			
 .. [Kok02]  G. Kok and P. Harris, "Uncertainty Evaluation for Metrologically Redundant Industrial Sensor Networks," 
             2020 IEEE International Workshop on Metrology for Industry 4.0 & IoT, Roma, Italy, 2020, 
-			pp. 84-88, doi: 10.1109/MetroInd4.0IoT48571.2020.9138297.
+	    pp. 84-88, doi: 10.1109/MetroInd4.0IoT48571.2020.9138297.
