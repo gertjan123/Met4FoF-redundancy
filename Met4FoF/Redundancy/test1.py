@@ -1,5 +1,5 @@
 # test1.py
-# Test file for calling the main test functions of redundancy1.py
+# Test file for calling the main test functions of redundancy1.py.
 #
 # VSL, Gertjan Kok, 4 November 2020
 
