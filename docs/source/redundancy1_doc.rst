@@ -1,7 +1,7 @@
-Files *redundancy1.py* and *test.py*
-====================================
+Best estimate calculation in a sensor network in the presence of redundancy
+============================================================================
 
-The main functions included in the file *redundancy.py* are:
+The main functions included in the file *redundancy1.py* are:
 
 #. :mod:`calc_best_estimate`: Calculation of the best estimate for a given set of estimates with
     associated uncertainty matrix.
@@ -11,7 +11,7 @@ The main functions included in the file *redundancy.py* are:
 
 Best estimate calculation
 -------------------------
-.. automodule:: redundancy1
+.. automodule:: Met4FoF_redundancy.MFred.redundancy1
     :members:
 
 
