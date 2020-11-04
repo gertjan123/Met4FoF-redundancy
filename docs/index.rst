@@ -1,5 +1,5 @@
 MF-red - Analysis of redundant measurements
-=======================================================
+===========================================
 
 MF-red (Met4FoF-redundancy) is a software package containing software tools that may be useful to analyze measurement data in which some form of redundancy is present. The main part of the development has been performed at `VSL <https://www.vsl.nl/>`_ (Netherlands), with help of the partner institutes `NPL <https://www.npl.co.uk/>`_ (UK), `PTB <https://www.ptb.de/>`_ (Germany) and `UCAM <https://www.cam.ac.uk/>`_ (UK).
 
@@ -15,12 +15,13 @@ MF-red is written in Python 3.
    :maxdepth: 1
    :caption: Getting started:
    
+   getting-started_doc.rst
    
 .. toctree::
    :maxdepth: 1
    :caption: Contents:
    
-   
+   redundancy1_doc.rst
    
 
 
