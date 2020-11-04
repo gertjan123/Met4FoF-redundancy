@@ -3,7 +3,10 @@
 Introduction
 ------------
 
-This repository contains code written for the EMPIR 17IND12 project Met4FoF with a focus on task 2.3 which concerns redundant measurements.
+This repository contains code written for the EMPIR 17IND12 project Met4FoF with a focus on task 2.3 which concerns the analysis of data of redundant measurements.
+
+The main documentation can be found at https://met4fof-redundancy.readthedocs.io/.
+
 
 Files included
 --------------
