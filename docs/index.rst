@@ -5,13 +5,24 @@ MF-red (Met4FoF-redundancy) is a software package containing software tools that
 
 This software has been developed as part of the joint European Research Project `EMPIR 17IND12 Met4FoF "Metrology for the Factory of the Future" <https://www.met4fof.eu/>`_.
 
+Scientific publications explaining the ideas behind this software can be found in [Kok01]_ and [Kok02]_.
+
 MF-red is written in Python 3.
 
 
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
+   :caption: Getting started:
+   
+   Please download the Python code and use the functions that may be useful for you. The top level function have their own *test* functions illustrating their usage.
+   
+.. toctree::
+   :maxdepth: 1
    :caption: Contents:
+   
+   
+   
 
 
 
@@ -28,8 +39,8 @@ References
 
 .. [Kok01]  G. Kok and P. Harris, "Quantifying Metrological Redundancy in an Industry 4.0 Environment," 
             2020 IEEE International Workshop on Metrology for Industry 4.0 & IoT, Roma, Italy, 2020, 
-	    pp. 464-468, doi: https://dx.doi.org/10.1109/MetroInd4.0IoT48571.2020.9138235.
+			pp. 464-468, doi: https://dx.doi.org/10.1109/MetroInd4.0IoT48571.2020.9138235.
 			
 .. [Kok02]  G. Kok and P. Harris, "Uncertainty Evaluation for Metrologically Redundant Industrial Sensor Networks," 
             2020 IEEE International Workshop on Metrology for Industry 4.0 & IoT, Roma, Italy, 2020, 
-	    pp. 84-88, doi: https://dx.doi.org/10.1109/MetroInd4.0IoT48571.2020.9138297.
+			pp. 84-88, doi: https://dx.doi.org/10.1109/MetroInd4.0IoT48571.2020.9138297.
