@@ -96,10 +96,30 @@ def test_calc_consistent_estimates_no_corr():
     print_output_cbe(isconsist_arr, ybest_arr, uybest_arr, chi2obs_arr)
 
 
-# Calculate best estimate for 1 set of estimates y_arr with covariance matrix
-# vy_arr2d.
-# The consistency test is using probability limit prob_lim.
 def calc_best_estimate(y_arr, vy_arr2d, problim):
+    """Calculate the best estimate for a set of estimates with associated uncertainty matrix,
+    and determine if the set of estimates are consistent using a provided limit probability.
+
+    Parameters
+    ----------
+        y_arr:      np.ndarray of shape (n)
+                    vector of estimates of a measurand Y
+        vy_arr2d:   np.ndarray of shape (n, n)
+                    uncertainty matrix associated with y_arr
+        problim:    float
+                    probability limit used for assessing the consistency of the estimates. Typically, problim equals 0.95.
+
+    Returns
+    -------
+        isconsist:  bool
+                    indicator whether provided estimates are consistent in view of *problim*
+        ybest:      float
+                    best estimate of measurand
+        uybest:     float
+                    uncertainty associated with *ybest*
+        chi2obs:    float
+                    observed value of chi-squared, used for consistency evaluation
+    """
     n_estims = y_arr.shape[-1]
     if n_estims == 1:
         isconsist = True
@@ -117,6 +137,7 @@ def calc_best_estimate(y_arr, vy_arr2d, problim):
         chi2lim = chi2.ppf(problim, n_estims - 1)
         isconsist = (chi2obs <= chi2lim)
     return isconsist, ybest, uybest, chi2obs
+
 
 
 # test function for calc_best_estimate
@@ -345,47 +366,6 @@ def reduce_vx(x_arr, vx_arr2d, a_arr, a_arr2d, epszero):
     ared_arr = a_arr + np.dot(a_arr2d - ared_arr2d, x_arr) # adapt vector a_arr such that the vector of estimates y = a + A*x remains the same
     return xred_arr, vxred_arr2d, ared_arr, ared_arr2d
 
-
-def calc_best_estimate(y_arr, vy_arr2d, problim):
-    """Calculate the best estimate for a set of estimates with associated uncertainty matrix,
-    and determine if the set of estimates are consistent using a provided limit probability.
-
-    Parameters
-    ----------
-        y_arr:      np.ndarray of shape (n)
-                    vector of estimates of a measurand Y
-        vy_arr2d:   np.ndarray of shape (n, n)
-                    uncertainty matrix associated with y_arr
-        problim:    float
-                    probability limit used for assessing the consistency of the estimates. Typically, problim equals 0.95.
-
-    Returns
-        isconsist:  bool
-                    indicator whether provided estimates are consistent in view of *problim*
-        ybest:      float
-                    best estimate of measurand
-        uybest:     float
-                    uncertainty associated with *ybest*
-        chi2obs:    float
-                    observed value of chi-squared, used for consistency evaluation
-    """
-    n_estims = y_arr.shape[-1]
-    if n_estims == 1:
-        isconsist = True
-        ybest = y_arr[0]
-        uybest = np.sqrt(vy_arr2d[0, 0])
-        chi2obs = 0.0
-    else:
-        e_arr = np.ones(n_estims)
-        vyinve_arr = np.linalg.solve(vy_arr2d, e_arr)
-        uy2 = 1 / np.dot(e_arr, vyinve_arr)
-        uybest = np.sqrt(uy2)
-        ybest = np.dot(vyinve_arr, y_arr) * uy2
-        yred_arr = y_arr - ybest
-        chi2obs = np.dot(yred_arr, np.linalg.solve(vy_arr2d, yred_arr))
-        chi2lim = chi2.ppf(problim, n_estims - 1)
-        isconsist = (chi2obs <= chi2lim)
-    return isconsist, ybest, uybest, chi2obs
 
 
 def calc_best_est_lin_sys(a_arr, a_arr2d, x_arr, vx_arr2d, problim):

@@ -11,7 +11,7 @@ The main functions included in the file *redundancy1.py* are:
 
 Best estimate calculation
 -------------------------
-.. automodule:: Met4FoF_redundancy.MFred.redundancy1
+.. automodule:: MFred.redundancy1
     :members:
 
 
