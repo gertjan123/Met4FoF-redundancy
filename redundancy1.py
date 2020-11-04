@@ -346,11 +346,29 @@ def reduce_vx(x_arr, vx_arr2d, a_arr, a_arr2d, epszero):
     return xred_arr, vxred_arr2d, ared_arr, ared_arr2d
 
 
-
-# Calculate best estimate for 1 set of sensor data x_arr with covariance matrix
-# vx_arr2d and linear system of equations defined by a_arr and a_arr2d.
-# The consistency test is using probability limit prob_lim.
 def calc_best_estimate(y_arr, vy_arr2d, problim):
+    """Calculate the best estimate for a set of estimates with associated uncertainty matrix,
+    and determine if the set of estimates are consistent using a provided limit probability.
+
+    Parameters
+    ----------
+        y_arr:      np.ndarray of shape (n)
+                    vector of estimates of a measurand Y
+        vy_arr2d:   np.ndarray of shape (n, n)
+                    uncertainty matrix associated with y_arr
+        problim:    float
+                    probability limit used for assessing the consistency of the estimates. Typically, problim equals 0.95.
+
+    Returns
+        isconsist:  bool
+                    indicator whether provided estimates are consistent in view of *problim*
+        ybest:      float
+                    best estimate of measurand
+        uybest:     float
+                    uncertainty associated with *ybest*
+        chi2obs:    float
+                    observed value of chi-squared, used for consistency evaluation
+    """
     n_estims = y_arr.shape[-1]
     if n_estims == 1:
         isconsist = True
