@@ -86,10 +86,11 @@ def print_output_single(isconsist, ybest, uybest, chi2obs):
 
     Parameters
     ----------
-    isconsist
-    ybest
-    uybest
-    chi2obs
+    isconsist:  bool
+                Indicates if provided estimates were consistent
+    ybest:      best estimate
+    uybest:     uncertainty of best estimate
+    chi2obs:    observed value of chi-squared
 
     Returns
     -------
