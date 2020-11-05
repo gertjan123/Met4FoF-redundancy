@@ -1,8 +1,20 @@
 # -*- coding: utf-8 -*-
 """
-Created on Tue Sep  8 13:41:49 2020
+The module :mod:`redundancy1` implements methods for analysing redundant estimates provided by
+redundant measurement data from a sensor network.
 
-@author: KokG.
+The main functions included in the file *redundancy1.py* are:
+
+#. :func:`calc_best_estimate`: Calculation of the best estimate for a given set of estimates with associated uncertainty matrix.
+#. :func:`calc_lcs`: Calculation of the largest subset of consistent estimates of a measurand.
+#. :func:`calc_lcss`: Calculation of the largest subset of sensor values that yield consistent estimates of a measurand linked to the sensor values by a linear system of equations.
+
+The scientific publication giving more information on this topic is:
+
+    G. Kok and P. Harris, "Uncertainty Evaluation for Metrologically Redundant Industrial Sensor Networks,"
+    2020 IEEE International Workshop on Metrology for Industry 4.0 & IoT, Roma, Italy, 2020,
+    pp. 84-88, doi: `10.1109/MetroInd4.0IoT48571.2020.9138297
+    <https://dx.doi.org/10.1109/MetroInd4.0IoT48571.2020.9138297>`_.
 """
 
 import numpy as np
@@ -12,14 +24,27 @@ from scipy.special import comb
 from scipy.stats import multivariate_normal as mvn
 
 
-# Calculation of consistent estimate for n_sets of estimates y_ij (contained in
-# y_arr2d) of a quantity Y, where each set contains n_estims estimates.
-# The uncertainties are assumed to beindependent and given in uy_arr2d.
-# The consistency test is using limit probability limit prob_lim.
-# Fora each set of estimates, the best estimate, uncertainty, 
-# observed chi-2 value and a flag if the 
-# provided estimates were consistent given the model are given as output.
 def calc_consistent_estimates_no_corr(y_arr2d, uy_arr2d, prob_lim):
+    """
+    Calculation of consistent estimate for n_sets of estimates y_ij (contained in
+    y_arr2d) of a quantity Y, where each set contains n_estims estimates.
+    The uncertainties are assumed to be independent and given in uy_arr2d.
+    The consistency test is using limit probability limit prob_lim.
+    For each set of estimates, the best estimate, uncertainty,
+    observed chi-2 value and a flag if the
+    provided estimates were consistent given the model are given as output.
+
+    Parameters
+    ----------
+    y_arr2d
+    uy_arr2d
+    prob_lim
+
+    Returns
+    -------
+
+    """
+
     if len(y_arr2d.shape) > 1:
         n_sets = y_arr2d.shape[0]
     else:
@@ -51,6 +76,20 @@ def calc_consistent_estimates_no_corr(y_arr2d, uy_arr2d, prob_lim):
 
 
 def print_output_single(isconsist, ybest, uybest, chi2obs):
+    """
+    Function to print the output of a single row of the calculate_best_estimate function.
+
+    Parameters
+    ----------
+    isconsist
+    ybest
+    uybest
+    chi2obs
+
+    Returns
+    -------
+
+    """
     print('\tThe observed chi-2 value is %3.3f.' % chi2obs)
     if not isconsist:
         print("\tThe provided estimates (input) were not consistent.")
@@ -59,8 +98,21 @@ def print_output_single(isconsist, ybest, uybest, chi2obs):
     print("\tThe best estimate is %3.3f with uncertainty %3.3f.\n" % (ybest, uybest))
 
 
-# Function to print output of calc_best_estimate
 def print_output_cbe(isconsist_arr, ybest_arr, uybest_arr, chi2obs_arr):
+    """
+    Function to print the full output of calc_best_estimate.
+
+    Parameters
+    ----------
+    isconsist_arr
+    ybest_arr
+    uybest_arr
+    chi2obs_arr
+
+    Returns
+    -------
+
+    """
     if len(ybest_arr.shape) == 0:
         print_output_single(isconsist_arr, ybest_arr, uybest_arr, chi2obs_arr)
     else:
@@ -71,8 +123,12 @@ def print_output_cbe(isconsist_arr, ybest_arr, uybest_arr, chi2obs_arr):
             print_output_single(isconsist_arr[i_set], ybest_arr[i_set], uybest_arr[i_set], chi2obs_arr[i_set])
 
 
-# Test function for calc_consistent_estimates_no_corr().
+
 def test_calc_consistent_estimates_no_corr():
+    """
+    Test function for calc_consistent_estimates_no_corr(), implementing two test cases.
+
+    """
     # case with only one set of estimates
     print('Testing case with single set of estimates.')
     # input
@@ -84,8 +140,8 @@ def test_calc_consistent_estimates_no_corr():
     # print of output
     print_output_cbe(isconsist, ybest, uybest, chi2obs)
 
-    # case with two set2 of estimates
-    print('Testing case with single set of estimates.')
+    # case with two sets of estimates
+    print('Testing case with two sets of estimates.')
     # input
     y_arr = np.array([[20.2, 21.3, 20.5], [19.5, 19.7, 20.3]])
     uy_arr = np.array([[0.5, 0.8, 0.3], [0.1, 0.2, 0.3]])
