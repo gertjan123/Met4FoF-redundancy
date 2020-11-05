@@ -9,7 +9,7 @@ formats: all
 
 # Docker image to use for build process
 build:
-  image: master
+  image: latest
 
 # Python environment to build the docs for and install the package in
 python:
