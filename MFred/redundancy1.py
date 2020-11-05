@@ -17,12 +17,11 @@ The scientific publication giving more information on this topic is:
     <https://dx.doi.org/10.1109/MetroInd4.0IoT48571.2020.9138297>`_.
 """
 
+import itertools
 import numpy as np
 from scipy.stats import chi2
-import itertools
-from scipy.special import comb
 from scipy.stats import multivariate_normal as mvn
-
+from scipy.special import comb
 
 def calc_consistent_estimates_no_corr(y_arr2d, uy_arr2d, prob_lim):
     """
@@ -36,12 +35,18 @@ def calc_consistent_estimates_no_corr(y_arr2d, uy_arr2d, prob_lim):
 
     Parameters
     ----------
-    y_arr2d
-    uy_arr2d
-    prob_lim
+    y_arr2d:    np.ndarray of size (n, m)
+                each row contains m independent estimates of a measurand
+    uy_arr2d:   np.ndarray of size (n, m)
+                each row contains the standard uncertainty u(y_ij) of y_ij = y_arr2d[i,j]
+    prob_lim:   limit probability used in consistency test. Typically 0.95.
 
     Returns
     -------
+    isconsist_arr:  np.ndarray of size(n) ind
+    ybest_arr
+    uybest_arr
+    chi2obs_arr
 
     """
 
