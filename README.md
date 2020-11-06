@@ -3,23 +3,9 @@
 Introduction
 ------------
 
-This repository contains code written for the EMPIR 17IND12 project Met4FoF with a focus on task 2.3 which concerns the analysis of data of redundant measurements.
+This repository contains code written for the EMPIR 17IND12 project [Met4FoF](www.met4fof.eu) with a focus on task 2.3 which concerns the analysis of data of redundant measurements.
 
-The main documentation can be found at https://met4fof-redundancy.readthedocs.io/.
-
-
-Files included
---------------
-This reposistory includes the following files:
-
-|Nr | File name |Description| 
-|:--- |:--- |:---|
-|1. |test.py | This script can be used to call all individual test functions.|
-|2. |redundancy.py | This file contains various useful functions for evaluating redundant measurements.|
-
-
-Functions included
-------------------
+The main documentation can be found at [ReadTheDocs](https://met4fof-redundancy.readthedocs.io/).
 
 
 Acknowledgment

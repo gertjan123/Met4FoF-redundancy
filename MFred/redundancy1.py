@@ -5,6 +5,7 @@ redundant measurement data from a sensor network.
 
 The main functions included in the file *redundancy1.py* are:
 
+#. :func:`calc_consistent_estimates_no_corr`: Calculation of *n_rows* of best estimates for *n_rows* of sets of independent estimates with associated standard uncertainty.
 #. :func:`calc_best_estimate`: Calculation of the best estimate for a given set of estimates with associated uncertainty matrix.
 #. :func:`calc_lcs`: Calculation of the largest subset of consistent estimates of a measurand.
 #. :func:`calc_lcss`: Calculation of the largest subset of sensor values that yield consistent estimates of a measurand linked to the sensor values by a linear system of equations.
@@ -23,6 +24,7 @@ from scipy.stats import chi2
 from scipy.stats import multivariate_normal as mvn
 from scipy.special import comb
 
+
 def calc_consistent_estimates_no_corr(y_arr2d, uy_arr2d, prob_lim):
     """
     Calculation of consistent estimate for n_sets of estimates y_ij (contained in
@@ -35,18 +37,21 @@ def calc_consistent_estimates_no_corr(y_arr2d, uy_arr2d, prob_lim):
 
     Parameters
     ----------
-    y_arr2d:    np.ndarray of size (n, m)
+    y_arr2d:    np.ndarray of size (n_rows, n_estimates)
                 each row contains m independent estimates of a measurand
-    uy_arr2d:   np.ndarray of size (n, m)
+    uy_arr2d:   np.ndarray of size (n_rows, n_estimates)
                 each row contains the standard uncertainty u(y_ij) of y_ij = y_arr2d[i,j]
     prob_lim:   limit probability used in consistency test. Typically 0.95.
 
     Returns
     -------
-    isconsist_arr:  np.ndarray of size(n) ind
-    ybest_arr
-    uybest_arr
-    chi2obs_arr
+    isconsist_arr:  bool array of shape (n_rows)
+                    indicates for each row if the n_estimates are consistent or not
+    ybest_arr:      np.ndarray of shape (n_rows)
+                    contains the best estimate for each row of individual estimates
+    uybest_arr:     np.ndarray of shape (n_rows)
+                    contains the uncertainty associated with each best estimate for each row of *y_arr2d*
+    chi2obs_arr:    observed chi-squared value for each row
 
     """
 
@@ -60,22 +65,10 @@ def calc_consistent_estimates_no_corr(y_arr2d, uy_arr2d, prob_lim):
     uy2inv_arr2d = 1 / np.power(uy_arr2d, 2)
     uy2best_arr = 1 / np.sum(uy2inv_arr2d, -1)
     uybest_arr = np.sqrt(uy2best_arr)
-
-    print(n_sets)
-    print(n_estims)
-    print(y_arr2d)
-    print(uy2inv_arr2d)
-    print(y_arr2d * uy2inv_arr2d)
-
-    print(np.sum(y_arr2d * uy2inv_arr2d, -1))
-    print(uy2best_arr)
-    print(uy_arr2d.shape)
-
     ybest_arr = np.sum(y_arr2d * uy2inv_arr2d, -1) * uy2best_arr
-    chi2obs_arr = np.sum(np.power((y_arr2d - np.broadcast_to(ybest_arr, (n_estims, n_sets))) / uy_arr2d, 2), -1)
-
-    print(np.power((y_arr2d - np.broadcast_to(ybest_arr, (n_sets, n_estims))) / uy_arr2d, 2))
-    # print(chi2obs_arr)
+    if n_sets > 1:
+        ybest_arr = ybest_arr.reshape(n_sets, 1) # make a column vector of ybest_arr
+    chi2obs_arr = np.sum(np.power((y_arr2d - np.broadcast_to(ybest_arr, (n_sets, n_estims))) / uy_arr2d, 2), -1)
     isconsist_arr = (chi2obs_arr <= chi2_lim)
     return isconsist_arr, ybest_arr, uybest_arr, chi2obs_arr
 
@@ -88,13 +81,12 @@ def print_output_single(isconsist, ybest, uybest, chi2obs):
     ----------
     isconsist:  bool
                 Indicates if provided estimates were consistent
-    ybest:      best estimate
-    uybest:     uncertainty of best estimate
-    chi2obs:    observed value of chi-squared
-
-    Returns
-    -------
-
+    ybest:      float
+                best estimate
+    uybest:     float
+                uncertainty of best estimate
+    chi2obs:    float
+                observed value of chi-squared
     """
     print('\tThe observed chi-2 value is %3.3f.' % chi2obs)
     if not isconsist:
@@ -120,6 +112,10 @@ def print_output_cbe(isconsist_arr, ybest_arr, uybest_arr, chi2obs_arr):
 
     """
     if len(ybest_arr.shape) == 0:
+        print(isconsist_arr)
+        print(ybest_arr)
+        print(uybest_arr)
+        print(chi2obs_arr)
         print_output_single(isconsist_arr, ybest_arr, uybest_arr, chi2obs_arr)
     else:
         n_sets = ybest_arr.shape[0]
@@ -164,23 +160,23 @@ def calc_best_estimate(y_arr, vy_arr2d, problim):
 
     Parameters
     ----------
-        y_arr:      np.ndarray of shape (n)
-                    vector of estimates of a measurand Y
-        vy_arr2d:   np.ndarray of shape (n, n)
-                    uncertainty matrix associated with y_arr
-        problim:    float
-                    probability limit used for assessing the consistency of the estimates. Typically, problim equals 0.95.
+    y_arr:      np.ndarray of shape (n)
+                vector of estimates of a measurand Y
+    vy_arr2d:   np.ndarray of shape (n, n)
+                uncertainty matrix associated with y_arr
+    problim:    float
+                probability limit used for assessing the consistency of the estimates. Typically, problim equals 0.95.
 
     Returns
     -------
-        isconsist:  bool
-                    indicator whether provided estimates are consistent in view of *problim*
-        ybest:      float
-                    best estimate of measurand
-        uybest:     float
-                    uncertainty associated with *ybest*
-        chi2obs:    float
-                    observed value of chi-squared, used for consistency evaluation
+    isconsist:  bool
+                indicator whether provided estimates are consistent in view of *problim*
+    ybest:      float
+                best estimate of measurand
+    uybest:     float
+                uncertainty associated with *ybest*
+    chi2obs:    float
+                observed value of chi-squared, used for consistency evaluation
     """
     n_estims = y_arr.shape[-1]
     if n_estims == 1:
@@ -201,9 +197,10 @@ def calc_best_estimate(y_arr, vy_arr2d, problim):
     return isconsist, ybest, uybest, chi2obs
 
 
-
-# test function for calc_best_estimate
 def test_calc_best_estimate():
+    """
+    Test function for calc_best_estimate.
+    """
     print('\n-------------------------------------------------------------------\n')
     print('TESTING FUNCTION calc_best_estimate()')
     # Test case 0
@@ -246,6 +243,19 @@ def get_combination(val_arr, n_keep, indcomb):
 
 
 def calc_lcs(y_arr, vy_arr2d, problim):
+    """
+    Function to calculate the best estimate of a measurand based on individual estimates of the
+    measurand with associated uncertainty matrix.
+
+    Parameters
+    ----------
+    y_arr:      np.ndarray of shape (n)
+                vector with estimates of the measurand
+    vy_arr2d:   np.ndarray of shape (n, n)
+                uncertainty matrix of the vector y_arr
+    problim:    float
+                limit probability used in the consistency evaluation. Typically 0.95.
+    """
     isconsist, ybest, uybest, chi2obs = calc_best_estimate(y_arr, vy_arr2d, problim)
     n_estims = len(y_arr)
     estim_arr = np.arange(n_estims)
@@ -292,8 +302,11 @@ def calc_lcs(y_arr, vy_arr2d, problim):
     return n_sols, ybest, uybest, chi2obs, indkeep
 
 
-# test function for calc_lcs()
 def test_calc_lcs():
+    """
+    Test function for :func:`calc_lcs`.
+    Implements 4 test cases.
+    """
     print('\n-------------------------------------------------------------------\n')
     print('TESTING FUNCTION calc_lcs()')
     # Test case 0:
@@ -349,6 +362,24 @@ def test_calc_lcs():
 
 
 def print_output_lcs(n_sols, ybest, uybest, chi2obs, indkeep, y_arr):
+    """
+    Method to print the output of the method :func:`calc_lcs`.
+
+    Parameters
+    ----------
+    n_sols:     int
+                number of best solutions
+    ybest:      float or np.ndarray of shape (n_sols)
+                best estimate or vector of best estimates
+    uybest:     float or np.ndarray of shape (n_sols)
+                standard uncertainty of best estimate or vector with standard uncertainty of best estimates
+    chi2obs:    float
+                observed chi-squared value of all best solutions
+    indkeep:    np.ndarary of shape (n) or (n_sols, n)
+                indices of retained estimates of y_arr for the calculation of the best estimate ybest
+    y_arr:      np.ndarray of shape (n)
+                individual estimates of measurand
+    """
     n_estims = len(y_arr)
     n_keep = indkeep.shape[-1]  # number of retained estimates in the best solution(s)
     if n_sols == 1:
@@ -376,7 +407,6 @@ def print_output_lcs(n_sols, ybest, uybest, chi2obs, indkeep, y_arr):
     return
 
 
-
 # Function that returns the index of a row of A that can be written as a linear combination of the others.
 # This row does not contribute any new information to the system.
 def reduce_a(a_arr2d, epszero):
@@ -395,6 +425,7 @@ def reduce_a(a_arr2d, epszero):
     indrem = indrem[-1]  # return the last row that can be taken out
     # print('ReduceA: Identified row %d to be removed from a and A.\n', indRem);
     return indrem
+
 
 # Reduced the system if matrix Vx is not of full rank.
 # This might be ambiguous, as constant sensor values or offsets have to be estimated and are not known.
@@ -429,8 +460,36 @@ def reduce_vx(x_arr, vx_arr2d, a_arr, a_arr2d, epszero):
     return xred_arr, vxred_arr2d, ared_arr, ared_arr2d
 
 
-
 def calc_best_est_lin_sys(a_arr, a_arr2d, x_arr, vx_arr2d, problim):
+    """
+    Function to calculate the best estimate of a linear system **y** = **a** + A * **x**
+    and determines if the inputs are consistent in view of *problim*.
+
+    Parameters
+    ----------
+    a_arr:      np.ndarray of shape (n_estimates)
+                vector **a** of linear system **y** = **a** + A * **x**
+    a_arr2d:    np.ndarray of shape (n_estimates, n_sensors)
+                matrix A of linear system **y** = **a** + A * **x**
+    x_arr:      np.ndarray of shape (n_sensors)
+                vector with sensor values
+                vector **x** of linear system **y** = **a** + A * **x**
+    vx_arr2d:   np.ndarray of shape (n_sensors, n_sensors)
+                uncertainty matrix associated with vector x_arr
+    problim:    float
+                probability limit used for consistency evaluation. Typically 0.95.
+
+    Returns
+    -------
+    isconsist:  bool
+                indicator whether provided estimates are consistent in view of *problim*
+    ybest:      float
+                best estimate
+    uybest:     float
+                standard uncertainty of best estimate
+    chi2obs:    float
+                observed chi-squared value
+    """
     epszero = 1e-10  # some small constant used for some checks
 
     # The main procedure only works when vy_arr2d has full rank. Therefore first a_arr, a_arr2d and vx_arr2d need to be
@@ -469,7 +528,43 @@ def calc_best_est_lin_sys(a_arr, a_arr2d, x_arr, vx_arr2d, problim):
 
 
 # function to calculate lcss
-def calc_lcss(x_arr, vx_arr2d, a_arr, a_arr2d, problim):
+def calc_lcss(a_arr, a_arr2d, x_arr, vx_arr2d, problim):
+    """
+    Calculation of the largest consistent subset of sensor values and the implied best estimate.
+
+    Parameters
+    ----------
+    x_arr
+    vx_arr2d
+    a_arr
+    a_arr2d
+    problim
+    a_arr:      np.ndarray of shape (n_estimates)
+                vector **a** of linear system **y** = **a** + A * **x**
+    a_arr2d:    np.ndarray of shape (n_estimates, n_sensors)
+                matrix A of linear system **y** = **a** + A * **x**
+    x_arr:      np.ndarray of shape (n_sensors)
+                vector with sensor values
+                vector **x** of linear system **y** = **a** + A * **x**
+    vx_arr2d:   np.ndarray of shape (n_sensors, n_sensors)
+                uncertainty matrix associated with vector x_arr
+    problim:    float
+                probability limit used for consistency evaluation. Typically 0.95.
+
+    Returns
+    -------
+    isconsist:  bool
+                indicator whether provided estimates are consistent in view of *problim*
+    ybest:      float
+                best estimate
+    uybest:     float
+                standard uncertainty of best estimate
+    chi2obs:    float
+                observed chi-squared value
+    Returns
+    -------
+
+    """
     epszero = 1e-7 # epsilon for rank check
     eps_chi2 = 1e-7 # epsilon for chi2 equivalence check
 
@@ -606,8 +701,11 @@ def print_output_lcss(n_sols, ybest, uybest, chi2obs, indkeep, x_arr, a_arr2d):
     return
 
 
-# test function for calc_lcsc()
 def test_calc_lcss():
+    """
+    Test function for method :func:`calc_lcss`.
+    Implements 4 test cases.
+    """
     print('\n-------------------------------------------------------------------\n')
     print('TESTING FUNCTION calc_lcss()\n')
     # Test case 0:
@@ -622,7 +720,7 @@ def test_calc_lcss():
     # print input
     print_input_lcss(x_arr, vx_arr2d, a_arr, a_arr2d, problim)
     # function
-    n_sols, ybest, uybest, chi2obs, indkeep = calc_lcss(x_arr, vx_arr2d, a_arr, a_arr2d, problim)
+    n_sols, ybest, uybest, chi2obs, indkeep = calc_lcss( a_arr, a_arr2d, x_arr, vx_arr2d, problim)
     # print output
     print_output_lcss(n_sols, ybest, uybest, chi2obs, indkeep, x_arr, a_arr2d)
 
@@ -649,7 +747,7 @@ def test_calc_lcss():
     # print input
     print_input_lcss(x_arr, vx_arr2d, a_arr, a_arr2d, problim)
     # function
-    n_sols, ybest, uybest, chi2obs, indkeep = calc_lcss(x_arr, vx_arr2d, a_arr, a_arr2d, problim)
+    n_sols, ybest, uybest, chi2obs, indkeep = calc_lcss(a_arr, a_arr2d, x_arr, vx_arr2d, problim)
     # print output
     print_output_lcss(n_sols, ybest, uybest, chi2obs, indkeep, x_arr, a_arr2d)
 
@@ -669,7 +767,7 @@ def test_calc_lcss():
     # print input
     print_input_lcss(x_arr, vx_arr2d, a_arr, a_arr2d, problim)
     # function
-    n_sols, ybest, uybest, chi2obs, indkeep = calc_lcss(x_arr, vx_arr2d, a_arr, a_arr2d, problim)
+    n_sols, ybest, uybest, chi2obs, indkeep = calc_lcss(a_arr, a_arr2d, x_arr, vx_arr2d, problim)
     # print output
     print_output_lcss(n_sols, ybest, uybest, chi2obs, indkeep, x_arr, a_arr2d)
 
@@ -688,7 +786,7 @@ def test_calc_lcss():
         dx_arr = np.random.standard_normal(4)
         x_arr = x_arr - dx_arr
         a_arr = np.matmul(a_arr2d, dx_arr)
-        n_sols, ybest, uybest, chi2obs, indkeep = calc_lcss(x_arr, vx_arr2d, a_arr, a_arr2d, problim)
+        n_sols, ybest, uybest, chi2obs, indkeep = calc_lcss(a_arr, a_arr2d, x_arr, vx_arr2d, problim)
         if indkeep.shape[-1] == len(x_arr):
             n_casekeep += 1
     frackeep = n_casekeep / n_reps
