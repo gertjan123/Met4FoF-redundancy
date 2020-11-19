@@ -102,20 +102,19 @@ def print_output_cbe(isconsist_arr, ybest_arr, uybest_arr, chi2obs_arr):
 
     Parameters
     ----------
-    isconsist_arr
-    ybest_arr
-    uybest_arr
-    chi2obs_arr
+    isconsist_arr:  bool array of shape (n_rows)
+                    indicates for each row if the n_estimates are consistent or not
+    ybest_arr:      np.ndarray of shape (n_rows)
+                    contains the best estimate for each row of individual estimates
+    uybest_arr:     np.ndarray of shape (n_rows)
+                    contains the uncertainty associated with each best estimate for each row of *y_arr2d*
+    chi2obs_arr:    observed chi-squared value for each row
 
     Returns
     -------
 
     """
     if len(ybest_arr.shape) == 0:
-        print(isconsist_arr)
-        print(ybest_arr)
-        print(uybest_arr)
-        print(chi2obs_arr)
         print_output_single(isconsist_arr, ybest_arr, uybest_arr, chi2obs_arr)
     else:
         n_sets = ybest_arr.shape[0]
@@ -178,7 +177,9 @@ def calc_best_estimate(y_arr, vy_arr2d, problim):
     chi2obs:    float
                 observed value of chi-squared, used for consistency evaluation
     """
-    n_estims = y_arr.shape[-1]
+    # print('y_arr.shape = ', y_arr.shape)
+    print('cbe y_arr = ', y_arr)
+    n_estims = len(y_arr)
     if n_estims == 1:
         isconsist = True
         ybest = y_arr[0]
@@ -191,7 +192,7 @@ def calc_best_estimate(y_arr, vy_arr2d, problim):
         uybest = np.sqrt(uy2)
         ybest = np.dot(vyinve_arr, y_arr) * uy2
         yred_arr = y_arr - ybest
-        chi2obs = np.dot(yred_arr, np.linalg.solve(vy_arr2d, yred_arr))
+        chi2obs = np.dot(yred_arr.transpose(), np.linalg.solve(vy_arr2d, yred_arr)) # check need for transpose
         chi2lim = chi2.ppf(problim, n_estims - 1)
         isconsist = (chi2obs <= chi2lim)
     return isconsist, ybest, uybest, chi2obs
@@ -415,7 +416,7 @@ def reduce_a(a_arr2d, epszero):
         return 1/0
     # Remove one row from A that is a linear combination of the other rows.
     # Find a solution of A' * b = 0.
-    u, s, vh = np.linalg(np.transpose(a_arr2d))
+    u, s, vh = np.linalg.svd(np.transpose(a_arr2d))
     # singVals = diag(S)%;
     b = vh[-1, :]
     indrem = np.where(abs(b) > epszero)[0] # remove a row corresponding to a non-zero entry in b.
@@ -490,6 +491,7 @@ def calc_best_est_lin_sys(a_arr, a_arr2d, x_arr, vx_arr2d, problim):
     chi2obs:    float
                 observed chi-squared value
     """
+    print('start calc_best_est_lin_sys')
     epszero = 1e-10  # some small constant used for some checks
 
     # The main procedure only works when vy_arr2d has full rank. Therefore first a_arr, a_arr2d and vx_arr2d need to be
@@ -510,13 +512,18 @@ def calc_best_est_lin_sys(a_arr, a_arr2d, x_arr, vx_arr2d, problim):
     # Reduce the system if a_arr2d has more rows than its rank.
     while ared_arr2d.shape[0] > np.linalg.matrix_rank(ared_arr2d):
         print('Reducing A. No of rows = ', ared_arr2d.shape[0], ', rank = ', np.linalg.matrix_rank(ared_arr2d))
-        ind_rem = reduce_a(ared_arr, ared_arr2d, epszero)
+        print('ared_arr2d: ', ared_arr2d)
+        ind_rem = reduce_a(ared_arr2d, epszero)
         n_rows = ared_arr2d.shape[0]
-        indrowskeep = np.concatenate((np.arange(0, ind_rem - 1), np.arange(ind_rem + 1, n_rows)))
+        indrowskeep = np.concatenate((np.arange(0, ind_rem), np.arange(ind_rem + 1, n_rows)))
         ared_arr = ared_arr[indrowskeep]
         ared_arr2d = ared_arr2d[indrowskeep,]
 
     # calculate y vector and Vy matrix
+    print('ared_arr2d: ', ared_arr2d)
+    print('ared_arr: ', ared_arr.shape)
+    print('ared_arr2d: ', ared_arr2d.shape)
+    print('xred_arr: ', xred_arr.shape)
     y_arr = ared_arr + np.dot(ared_arr2d, xred_arr)
     vy_arr2d = np.matmul(np.matmul(ared_arr2d, vxred_arr2d), np.transpose(ared_arr2d))
 
@@ -565,6 +572,7 @@ def calc_lcss(a_arr, a_arr2d, x_arr, vx_arr2d, problim):
     -------
 
     """
+    print('start calc_lcss')
     epszero = 1e-7 # epsilon for rank check
     eps_chi2 = 1e-7 # epsilon for chi2 equivalence check
 

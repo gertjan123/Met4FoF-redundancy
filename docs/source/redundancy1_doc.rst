@@ -1,5 +1,5 @@
-Best estimate calculation in a sensor network in the presence of redundancy
-============================================================================
+MFred: Python functions for best estimate calculation in a sensor network in the presence of redundancy
+========================================================================================================
 
 In this section some method for analysing redundant measurement data is presented. *Redundancy* means that there is more than one way to derive the value of the measurand *Y* from the values of the sensor data *X_i*. Following main cases are considered in the module:
 
