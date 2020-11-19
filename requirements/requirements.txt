@@ -2,3 +2,4 @@
 # itertools: not needed, already included in python
 numpy
 scipy
+agentMET4FOF
