@@ -9,7 +9,7 @@ These test functions are:
 
 """
 
-import MFred.redundancy1 as mfred1
+import Met4FoF_redundancy.MFred.redundancy1 as mfred1
 
 
 def main():
