@@ -1,4 +1,4 @@
-from .MFred import redundancy1, test1
+from .MFred import redundancy1
 from .agentMFred import (
     metrological_streams_v2,
     redundancyAgents_tutorial_1,
