@@ -23,6 +23,11 @@ setup(
     packages=find_packages(exclude=["test_redundancy"]),
     zip_safe=False,
     python_requires=">=3.6",
+    install_requires=[
+        "numpy",
+        "scipy",
+        "agentMET4FOF",
+    ],
     classifiers=[
         "Development Status :: 3 - Alpha",
         "Topic :: Utilities",
