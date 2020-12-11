@@ -5,12 +5,14 @@ types:
 - lcss: best estimate calculation using Largest Consistent Subset of Sensor values method
 
 """
-import numpy as np
 from typing import Dict
-from time_series_metadata.scheme import MetaData
-from MFred.redundancy1 import calc_lcs, calc_lcss
+
+import numpy as np
 from agentMET4FOF.metrological_agents import MetrologicalAgent
-from agentMFred.metrological_streams_v2 import MetrologicalMultiWaveGenerator
+from time_series_metadata.scheme import MetaData
+
+from .metrological_streams_v2 import MetrologicalMultiWaveGenerator
+from ..MFred.redundancy1 import calc_lcs, calc_lcss
 
 
 class MetrologicalMultiWaveGeneratorAgent(MetrologicalAgent):

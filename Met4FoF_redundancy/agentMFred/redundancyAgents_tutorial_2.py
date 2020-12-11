@@ -5,11 +5,12 @@ The Redundancy Agent uses the redundancy in the data vector together with some p
 in order to calculate the best consistent estimate taking into account the supplied uncertainties.
 """
 
+import numpy as np
 from agentMET4FOF.agents import AgentNetwork
 from agentMET4FOF.metrological_agents import MetrologicalMonitorAgent
-from agentMFred.metrological_streams_v2 import MetrologicalMultiWaveGenerator
-from agentMFred.redundancyAgents1 import MetrologicalMultiWaveGeneratorAgent, RedundancyAgent
-import numpy as np
+
+from .metrological_streams_v2 import MetrologicalMultiWaveGenerator
+from .redundancyAgents1 import MetrologicalMultiWaveGeneratorAgent, RedundancyAgent
 
 
 def main():
