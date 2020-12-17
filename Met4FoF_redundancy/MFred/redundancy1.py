@@ -38,7 +38,7 @@ def calc_consistent_estimates_no_corr(y_arr2d, uy_arr2d, prob_lim):
     Parameters
     ----------
     y_arr2d:    np.ndarray of size (n_rows, n_estimates)
-                each row contains m independent estimates of a measurand
+                each row contains m=n_estimates independent estimates of a measurand
     uy_arr2d:   np.ndarray of size (n_rows, n_estimates)
                 each row contains the standard uncertainty u(y_ij) of y_ij = y_arr2d[i,j]
     prob_lim:   limit probability used in consistency test. Typically 0.95.
