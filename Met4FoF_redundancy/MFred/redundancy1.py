@@ -27,6 +27,17 @@ import numpy as np
 from scipy.special import comb
 from scipy.stats import chi2
 
+class SensorsNotLinearlyIndependent(Exception):
+    """
+    Custom exception to handle the case when sensor results are not linearly independent
+    """
+    pass
+
+class SystemMatrixNotReducible(Exception):
+    """
+    Custom exception to handle the case when the system matrix *A* is not reducible
+    """
+    pass
 
 def calc_consistent_estimates_no_corr(y_arr2d, uy_arr2d, prob_lim):
     """
@@ -69,10 +80,13 @@ def calc_consistent_estimates_no_corr(y_arr2d, uy_arr2d, prob_lim):
     uy2best_arr = 1 / np.sum(uy2inv_arr2d, -1)
     uybest_arr = np.sqrt(uy2best_arr)
     ybest_arr = np.sum(y_arr2d * uy2inv_arr2d, -1) * uy2best_arr
+
     if n_sets > 1:
         ybest_arr = ybest_arr.reshape(n_sets, 1)  # make a column vector of ybest_arr
+
     chi2obs_arr = np.sum(np.power((y_arr2d - np.broadcast_to(ybest_arr, (n_sets, n_estims))) / uy_arr2d, 2), -1)
     isconsist_arr = (chi2obs_arr <= chi2_lim)
+
     return isconsist_arr, ybest_arr, uybest_arr, chi2obs_arr
 
 
@@ -294,39 +308,39 @@ def print_output_lcs(n_sols, ybest, uybest, chi2obs, indkeep, y_arr):
 # This row does not contribute any new information to the system.
 def ind_reduce_a(a_arr2d, epszero):
     if a_arr2d.shape[0] <= np.linalg.matrix_rank(a_arr2d):
-        print('ERROR: A cannot be reduced!')
-        return 1/0
+        raise SystemMatrixNotReducible('A cannot be reduced!')
     # Remove one row from A that is a linear combination of the other rows.
     # Find a solution of A' * b = 0.
     u, s, vh = np.linalg.svd(np.transpose(a_arr2d))
     # singVals = diag(S)%;
     b = vh[-1, :]
     indrem = np.where(abs(b) > epszero)[0]  # remove a row corresponding to a non-zero entry in b.
+
     if len(indrem) == 0:
-        print('ERROR: b is zero vector!')
-        1/0  # Create error
+        raise ValueError('b is a zero vector!')
+
     indrem = indrem[-1]  # return the last row that can be taken out
     # print('ReduceA: Identified row %d to be removed from a and A.\n', indRem);
     return indrem
-
 
 # Reduced the system if matrix Vx is not of full rank.
 # This might be ambiguous, as constant sensor values or offsets have to be estimated and are not known.
 def reduce_vx(x_arr, vx_arr2d, a_arr, a_arr2d, epszero):
     if vx_arr2d.shape[0] <= np.linalg.matrix_rank(vx_arr2d, epszero):
-        print('Vx cannot be reduced!')
+        print('Vx cannot be reduced any further!')
         return
     # Remove one sensor from Vx, A and x that is a linear combination of the other sensors.
     # Find a solution of Vx * b = 0. This
     u, s, vh = np.linalg.svd(vx_arr2d)
     b = vh[-1, :]  # bottom row of vh is orthogonal to Vx
+
     if abs(np.dot(b, x_arr)) > epszero:
-        print('ERROR: Sensors in x should be linearly dependent with b^T * x = 0, but this is not the case!')
-        1/0  # Raise error here
+        raise SensorsNotLinearlyIndependent('Sensors in x should be linearly independent with b^T * x = 0, but this is not the case!')
+
     indrem = np.where(abs(b) > epszero)[0]  # remove a sensor corresponding to a non-zero entry in b.
     if len(indrem) == 0:
-        print('ERROR: b is the zero vector!')
-        1/0  # Raise error here
+        raise ValueError('b is the zero vector!')
+
     indrem = indrem[-1]  # take out the last sensor
     indsenskeep = np.concatenate(np.arange(indrem), np.arange(indrem, vx_arr2d.shape[0]))
     vxred_arr2d = vx_arr2d[indsenskeep, indsenskeep]
