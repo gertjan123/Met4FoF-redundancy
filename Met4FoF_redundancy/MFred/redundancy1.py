@@ -150,7 +150,7 @@ def print_output_cbe(isconsist_arr, ybest_arr, uybest_arr, chi2obs_arr):
         print(f'There are {n_sets:.0f} sets with estimates of the measurand.')
         for i_set in range(n_sets):
             print(f'The result of set {i_set:.0f} is:')
-            print_output_single(isconsist_arr[i_set], ybest_arr[i_set], uybest_arr[i_set], chi2obs_arr[i_set])
+            print_output_single(isconsist_arr.item(i_set), ybest_arr.item(i_set), uybest_arr.item(i_set), chi2obs_arr.item(i_set))
 
 
 def calc_best_estimate(y_arr, vy_arr2d, problim):
