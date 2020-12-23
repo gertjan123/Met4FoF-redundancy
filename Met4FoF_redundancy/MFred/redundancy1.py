@@ -115,7 +115,7 @@ def print_output_single(isconsist, ybest, uybest, chi2obs):
     chi2obs:    float
                 observed value of chi-squared
     """
-    print(f'\tThe observed chi-2 value is {chi2obs:3.3f}.')
+    print('\tThe observed chi-2 value is %3.3f.' % chi2obs)
 
     if isconsist:
         print("\tThe provided estimates (input) were consistent.")
