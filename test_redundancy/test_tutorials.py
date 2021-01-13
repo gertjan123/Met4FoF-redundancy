@@ -1,5 +1,5 @@
-from Met4FoF_redundancy.agentMFred.redundancyAgents_tutorial_1 import main as tut1
-from Met4FoF_redundancy.agentMFred.redundancyAgents_tutorial_2 import main as tut2
+from Met4FoF_redundancy_tutorials.redundancyAgents_tutorial_1 import main as tut1
+from Met4FoF_redundancy_tutorials.redundancyAgents_tutorial_2 import main as tut2
 
 
 def test_execution_of_tutorial_1():
