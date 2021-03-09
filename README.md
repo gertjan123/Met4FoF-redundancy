@@ -1,5 +1,11 @@
 # Met4FoF
 
+[![CircleCI](https://circleci.com/gh/PTB-PSt1/PyDynamic.svg?style=shield)](https://circleci.com/gh/PTB-PSt1/PyDynamic)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/397eebc52073457a824e5657c305dc92)](https://www.codacy.com/app/PTB-PSt1/PyDynamic?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=PTB-PSt1/PyDynamic&amp;utm_campaign=Badge_Grade)
+[![Documentation Status](https://readthedocs.org/projects/pydynamic/badge/?version=latest)](https://pydynamic.readthedocs.io/?badge=latest)
+[![Codecov Badge](https://codecov.io/gh/PTB-PSt1/PyDynamic/branch/master/graph/badge.svg)](https://codecov.io/gh/PTB-PSt1/PyDynamic)
+[![DOI](https://zenodo.org/badge/34848642.svg)](https://zenodo.org/badge/latestdoi/34848642)
+
 Introduction
 ------------
 
