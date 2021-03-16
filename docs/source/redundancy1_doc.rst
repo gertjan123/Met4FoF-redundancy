@@ -11,7 +11,7 @@ Details of the different modules are presented in the next sections.
 
 Details of the main module :mod:`redundancy1`
 ---------------------------------------------
-.. automodule:: Met4FoF_redunacny.MFred.redundancy1
+.. automodule:: Met4FoF_redundancy.MFred.redundancy1
     :members:
 
 Details of the test module :mod:`test1`
