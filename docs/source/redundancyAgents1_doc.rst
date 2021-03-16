@@ -23,13 +23,13 @@ Details of the module :mod:`redundancyAgents1`
 
 Details of the module :mod:`redundancyAgents_tutorial_1`
 ---------------------------------------------------------
-.. automodule:: Met4FoF_redundancy_tutorials.agentMFred.redundancyAgents_tutorial_1
+.. automodule:: Met4FoF_redundancy_tutorials.redundancyAgents_tutorial_1
     :members:
 
 
 Details of the module :mod:`redundancyAgents_tutorial_2`
 ---------------------------------------------------------
-.. automodule:: Met4FoF_redundancy_tutorials.agentMFred.redundancyAgents_tutorial_2
+.. automodule:: Met4FoF_redundancy_tutorials.redundancyAgents_tutorial_2
     :members:
 
 
