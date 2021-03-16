@@ -7,6 +7,9 @@ Introduction
 This repository contains code written for the EMPIR 17IND12 project [Met4FoF](www.met4fof.eu) with a focus on task 2.3 which concerns the analysis of data of redundant measurements.
 
 The main documentation can be found at [ReadTheDocs](https://met4fof-redundancy.readthedocs.io/).
+.. image:: https://readthedocs.org/projects/met4fof-redundancy/badge/?version=master
+:target: https://met4fof-redundancy.readthedocs.io/en/master/?badge=master
+:alt: Documentation Status
 
 
 Acknowledgment
