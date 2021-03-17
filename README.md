@@ -16,14 +16,14 @@ The main documentation can be found at [ReadTheDocs](https://met4fof-redundancy.
 The status result of the automatically generated documentation: [![Documentation Status](https://readthedocs.org/projects/met4fof-redundancy/badge/?version=master)](https://met4fof-redundancy.readthedocs.io/en/master/?badge=master)
  
 ## Automatic testing
-Some tests are automatically be performed at each commit using [CircleCI] (https://circleci.com/).
+Some tests are automatically be performed at each commit using [CircleCI](https://circleci.com/).
 The status result of this automatic testing is: [![gertjan123](https://circleci.com/gh/gertjan123/Met4FoF-redundancy.svg?style=shield)](https://app.circleci.com/pipelines/github/gertjan123)
 
 ## Code quality
-The quality of the code as analyzed by [codacy.com](codacy.com) is: [![Codacy Badge](https://app.codacy.com/project/badge/Grade/ad51c2b3f4ee49baa5b4de078a7f3d5d)](https://www.codacy.com/gh/gertjan123/Met4FoF-redundancy/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=gertjan123/Met4FoF-redundancy&amp;utm_campaign=Badge_Grade)
+The quality of the code as analyzed by [codacy.com](https://codacy.com) is: [![Codacy Badge](https://app.codacy.com/project/badge/Grade/ad51c2b3f4ee49baa5b4de078a7f3d5d)](https://www.codacy.com/gh/gertjan123/Met4FoF-redundancy/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=gertjan123/Met4FoF-redundancy&amp;utm_campaign=Badge_Grade)
 
 ## Code coverage
-The code coverage of the test suite as analyzed by [codecov.io](codecov.io) is:
+The code coverage of the test suite as analyzed by [codecov.io](https://codecov.io) is:
 
 
 ## Acknowledgment
