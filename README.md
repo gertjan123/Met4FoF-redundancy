@@ -28,4 +28,4 @@ The code coverage of the test suite as analyzed by codecov.io is:
 
 ## Acknowledgment
 
-This has been performed in the EMPIR 17IND12 project “Metrology for the Factory of the Future” (www.met4fof.eu). This project has received funding from the EMPIR programme co-financed by the Participating States and from the European Union's Horizon 2020 research and innovation programme.
+This work has been performed in the EMPIR 17IND12 project “Metrology for the Factory of the Future” (www.met4fof.eu). This project has received funding from the EMPIR programme co-financed by the Participating States and from the European Union's Horizon 2020 research and innovation programme.
