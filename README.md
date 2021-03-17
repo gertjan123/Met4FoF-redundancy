@@ -17,7 +17,7 @@ The status result of the automatically generated documentation: [![Documentation
  
 ## Automatic testing
 Some tests are automatically be performed at each commit using [CircleCI] (https://circleci.com/).
-The status result of this automatic testing is: [![gertjan123](https://circleci.com/gh/gertjan123/Met4FoF-redundancy.svg?style=svg)](https://app.circleci.com/pipelines/github/gertjan123)
+The status result of this automatic testing is: [![gertjan123](https://circleci.com/gh/gertjan123/Met4FoF-redundancy.svg?style=shield)](https://app.circleci.com/pipelines/github/gertjan123)
 
 ## Code quality
 The quality of the code as analyzed by codacy.com is: [![Codacy Badge](https://app.codacy.com/project/badge/Grade/ad51c2b3f4ee49baa5b4de078a7f3d5d)](https://www.codacy.com/gh/gertjan123/Met4FoF-redundancy/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=gertjan123/Met4FoF-redundancy&amp;utm_campaign=Badge_Grade)
