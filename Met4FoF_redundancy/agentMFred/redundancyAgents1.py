@@ -59,14 +59,14 @@ class RedundancyAgent(MetrologicalAgent):
     """
     metadata: MetaData
     n_pr: int
-    problim : int
+    problim: float
     calc_type: str
     sensor_key_list: list
     a_arr: np.ndarray
     a_arr2d: np.ndarray
 
     def init_parameters(self, input_data_maxlen=25, output_data_maxlen=25):
-        """Initialize the input data
+        """
         Initialize the input data stream as an instance of the :py:mod:`MultiWaveGenerator` class.
 
         Parameters
@@ -243,7 +243,7 @@ class RedundancyAgent(MetrologicalAgent):
                 # print('a_arr2d: ', self.a_arr2d)
 
                 n_sols, ybest, uybest, chi2obs, indkeep = \
-                    calc_lcss(self.a_arr,self.a_arr2d, x_data_arr, vx_arr2d, self.problim)
+                    calc_lcss(self.a_arr, self.a_arr2d, x_data_arr, vx_arr2d, self.problim)
                 print('calc lcss finished')
                 print('n_sols: ', n_sols)
                 print('ybest: ', ybest)
@@ -251,7 +251,7 @@ class RedundancyAgent(MetrologicalAgent):
                 if n_sols == 1:  # time stamp is latest value
                     if isinstance(ybest, np.ndarray):
                         ybest = ybest[0]
-                    data = np.array([t_data_arr2d[-1,0], ut_data_arr2d[-1,0], ybest, uybest])
+                    data = np.array([t_data_arr2d[-1, 0], ut_data_arr2d[-1, 0], ybest, uybest])
                 else:  # only return the first solution
                     data = np.array([t_data_arr2d[-1, 0], ut_data_arr2d[-1, 0], ybest[0], uybest[0]])
 
