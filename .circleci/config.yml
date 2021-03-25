@@ -52,7 +52,7 @@ commands:
           source venv/bin/activate
           pip install --upgrade pip pip-tools
           pip install --upgrade numpy scipy uncertainties
-          pip-sync requirements.txt
+          pip-sync requirements/requirements.txt
     - save_cache:
         paths:
           - ./venv
