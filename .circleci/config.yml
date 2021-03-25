@@ -15,7 +15,6 @@ executors:
 workflows:
   build_and_test_virtual_environments:
     jobs:
-      - install_and_cache_venv_dependencies
       - test_Met4FoF-redundancy
 
 
@@ -72,6 +71,7 @@ jobs:
       - checkout
       - create_result_folder:
           subfolder: Met4FoF-redundancy
+      - install_and_cache_venv_dependencies
 
       # Download and cache dependencies.
       - restore_cache:
@@ -81,7 +81,7 @@ jobs:
             # Fallback to using the latest cache if no exact match is found.
             - Met4FoF-redundancy-v2
 
-      # Install dependencies and Codecov reporter if necessary.
+      #	  Install dependencies and Codecov reporter if necessary.
       - run:
          name: Install dependencies
          command: |
