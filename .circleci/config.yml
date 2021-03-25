@@ -65,8 +65,8 @@ jobs:
       send_cov:
         type: boolean
         default: false    
-	
-	executor: tester
+
+    executor: tester
 
     steps:
       - checkout
@@ -96,8 +96,8 @@ jobs:
       # Run tests! We use pytest's test-runner.
       - run_venv_tests:
           subtree: Met4FoF-redundancy
-		  
-		  
+          
+          
       # Upload coverage report if the according parameter is set to `true`.
       - when:
           condition: << parameters.send_cov >>
@@ -107,4 +107,4 @@ jobs:
                 command: |
                   source << parameters.pyenv >>/bin/activate
                   bash <(curl -s https://codecov.io/bash)
-				  
+                  
