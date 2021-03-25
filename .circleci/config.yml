@@ -1,21 +1,110 @@
+# CircleCI 2.1 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-python/ for more details
+#
 version: 2.1
 
-orbs:
-  python: circleci/python@0.2.1
-
-jobs:
-  build-and-test:
-    executor: python/default
-    steps:
-      - checkout
-      - python/load-cache
-      - python/install-deps
-      - python/save-cache
-      - run:
-          command: ./manage.py test
-          name: Test
+executors:
+  # Define a parameterized executor which accepts two parameters to choose the python
+  # version which will be used for the docker image and the tox actions.
+  tester:
+    working_directory: ~/repo
+    docker:
+      - image: circleci/python:3.8
 
 workflows:
-  main:
+  build_and_test_virtual_environments:
     jobs:
-      - build-and-test
+	  - install_and_cache_venv_dependencies
+      - test_Met4FoF-redundancy
+
+
+commands:
+  # Reusable command to prepare the environment for testing.
+  install_and_cache_venv_dependencies:
+    description: "Install pip dependencies of all packages."
+    steps:
+    # Download and cache dependencies.
+    - restore_cache:
+        keys:
+          # Specify the unique identifier for the cache.
+          - venv-dependencies-{{ checksum "requirements.txt" }}
+          # Fallback to using the latest cache if no exact match is found.
+          - venv-dependencies-
+
+    # Install dependencies.
+    - run:
+        name: Install dependencies
+        command: |
+          python3 -m venv venv
+          source venv/bin/activate
+          pip install --upgrade pip pip-tools
+          pip install --upgrade numpy scipy uncertainties
+          pip-sync requirements.txt
+    - save_cache:
+        paths:
+          - ./venv
+        key: >-
+          venv-dependencies-{{ checksum "requirements.txt" }}
+
+
+jobs:
+  test_Met4FoF-redundancy:
+    # Define all parameters, where 'tag' is used for the docker image and 'pyenv' is
+    # the string which is used in tox to identify the current Python version. We reuse
+    # this variable basically everywhere we deal with the virtual environment.
+    # 'send_cov' is the conditional for either sending the produced coverage report
+    # to codecov or not.
+    parameters:
+      tag:
+        type: string
+        default: "3.8"
+      pyenv:
+        type: string
+        default: "py38"
+      send_cov:
+        type: boolean
+        default: false    
+	
+	executor: tester
+
+    steps:
+      - checkout
+      - create_result_folder:
+          subfolder: Met4FoF-redundancy
+
+      # Download and cache dependencies.
+      - restore_cache:
+          keys:
+            # Specify the unique identifier for the cache.
+            - Met4FoF-redundancy-v2-{{ checksum "Met4FoF-redundancy/requirements/requirements.txt" }}-{{ checksum "Met4FoF-redundancy/requirements/dev-requirements.txt" }}
+            # Fallback to using the latest cache if no exact match is found.
+            - Met4FoF-redundancy-v2
+
+      # Install dependencies and Codecov reporter if necessary.
+      - run:
+         name: Install dependencies
+         command: |
+           python3 -m venv venv
+           source venv/bin/activate
+           pip install --upgrade pip -r Met4FoF-redundancy/requirements/requirements.txt -r Met4FoF-redundancy/requirements/dev-requirements.txt
+      - save_cache:
+          paths:
+            - ./venv
+          key: >-
+            Met4FoF-redundancy-v2-{{ checksum "Met4FoF-redundancy/requirements/requirements.txt" }}-{{ checksum "Met4FoF-redundancy/requirements/dev-requirements.txt" }}
+      # Run tests! We use pytest's test-runner.
+      - run_venv_tests:
+          subtree: Met4FoF-redundancy
+		  
+		  
+      # Upload coverage report if the according parameter is set to `true`.
+      - when:
+          condition: << parameters.send_cov >>
+          steps:
+            - run:
+                name: Upload coverage report
+                command: |
+                  source << parameters.pyenv >>/bin/activate
+                  bash <(curl -s https://codecov.io/bash)
+				  
