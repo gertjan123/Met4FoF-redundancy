@@ -40,7 +40,7 @@ commands:
     - restore_cache:
         keys:
           # Specify the unique identifier for the cache.
-          - venv-dependencies-{{ checksum "requirements.txt" }}
+          - venv-dependencies-{{ checksum "requirements/requirements.txt" }}
           # Fallback to using the latest cache if no exact match is found.
           - venv-dependencies-
 
@@ -57,7 +57,7 @@ commands:
         paths:
           - ./venv
         key: >-
-          venv-dependencies-{{ checksum "requirements.txt" }}
+          venv-dependencies-{{ checksum "requirements/requirements.txt" }}
 
   run_venv_tests:
     description: "Run and store test results."
@@ -104,9 +104,9 @@ jobs:
       - restore_cache:
           keys:
             # Specify the unique identifier for the cache.
-            - Met4FoF-redundancy-v2-{{ checksum "Met4FoF-redundancy/requirements/requirements.txt" }}-{{ checksum "Met4FoF-redundancy/requirements/dev-requirements.txt" }}
+            - Met4FoF-redundancy-{{ checksum "Met4FoF-redundancy/requirements/requirements.txt" }}-{{ checksum "Met4FoF-redundancy/requirements/dev-requirements.txt" }}
             # Fallback to using the latest cache if no exact match is found.
-            - Met4FoF-redundancy-v2
+            - Met4FoF-redundancy
 
       #	  Install dependencies and Codecov reporter if necessary.
       - run:
@@ -119,7 +119,7 @@ jobs:
           paths:
             - ./venv
           key: >-
-            Met4FoF-redundancy-v2-{{ checksum "Met4FoF-redundancy/requirements/requirements.txt" }}-{{ checksum "Met4FoF-redundancy/requirements/dev-requirements.txt" }}
+            Met4FoF-redundancy-{{ checksum "Met4FoF-redundancy/requirements/requirements.txt" }}-{{ checksum "Met4FoF-redundancy/requirements/dev-requirements.txt" }}
       # Run tests! We use pytest's test-runner.
       - run_venv_tests:
           subtree: Met4FoF-redundancy
