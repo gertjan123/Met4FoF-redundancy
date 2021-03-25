@@ -19,6 +19,19 @@ workflows:
 
 
 commands:
+  create_result_folder:
+    description: "Create test-result folder."
+    parameters:
+      subfolder:
+        type: string
+        default: ""
+    steps:
+    # Create test-result folder.
+    - run:
+        name: Create test result folder
+        command: |
+          mkdir -p test-results/<< parameters.subfolder >>
+  
   # Reusable command to prepare the environment for testing.
   install_and_cache_venv_dependencies:
     description: "Install pip dependencies of all packages."
