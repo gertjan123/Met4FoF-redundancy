@@ -104,7 +104,7 @@ jobs:
       - restore_cache:
           keys:
             # Specify the unique identifier for the cache.
-            - Met4FoF-redundancy-{{ checksum "Met4FoF-redundancy/requirements/requirements.txt" }}-{{ checksum "Met4FoF-redundancy/requirements/dev-requirements.txt" }}
+            - Met4FoF-redundancy-{{ checksum "requirements/requirements.txt" }}-{{ checksum "requirements/dev-requirements.txt" }}
             # Fallback to using the latest cache if no exact match is found.
             - Met4FoF-redundancy
 
@@ -114,12 +114,12 @@ jobs:
          command: |
            python3 -m venv venv
            source venv/bin/activate
-           pip install --upgrade pip -r Met4FoF-redundancy/requirements/requirements.txt -r Met4FoF-redundancy/requirements/dev-requirements.txt
+           pip install --upgrade pip -r requirements/requirements.txt -r requirements/dev-requirements.txt
       - save_cache:
           paths:
             - ./venv
           key: >-
-            Met4FoF-redundancy-{{ checksum "Met4FoF-redundancy/requirements/requirements.txt" }}-{{ checksum "Met4FoF-redundancy/requirements/dev-requirements.txt" }}
+            Met4FoF-redundancy-{{ checksum "requirements/requirements.txt" }}-{{ checksum "requirements/dev-requirements.txt" }}
       # Run tests! We use pytest's test-runner.
       - run_venv_tests:
           subtree: Met4FoF-redundancy
