@@ -104,9 +104,9 @@ jobs:
       - restore_cache:
           keys:
             # Specify the unique identifier for the cache.
-            - Met4FoF-redundancy-{{ checksum "requirements/requirements.txt" }}-{{ checksum "requirements/dev-requirements.txt" }}
+            - Met4FoF-redundancy-v2-{{ checksum "requirements/requirements.txt" }}-{{ checksum "requirements/dev-requirements.txt" }}
             # Fallback to using the latest cache if no exact match is found.
-            - Met4FoF-redundancy
+            - Met4FoF-redundancy-v2
 
       #	  Install dependencies and Codecov reporter if necessary.
       - run:
@@ -119,10 +119,10 @@ jobs:
           paths:
             - ./venv
           key: >-
-            Met4FoF-redundancy-{{ checksum "requirements/requirements.txt" }}-{{ checksum "requirements/dev-requirements.txt" }}
+            Met4FoF-redundancy-v2-{{ checksum "requirements/requirements.txt" }}-{{ checksum "requirements/dev-requirements.txt" }}
       # Run tests! We use pytest's test-runner.
       - run_venv_tests:
-          subtree: repo/Met4FoF-redundancy/test-redundancy
+          subtree: Met4FoF-redundancy
           
           
       # Upload coverage report if the according parameter is set to `true`.
