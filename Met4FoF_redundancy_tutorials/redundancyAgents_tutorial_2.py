@@ -40,7 +40,7 @@ def demonstrate_redundancy_agent_onesignal():
     # signal1.init_parameters(batch_size1=batch_size)
 
     # Data source agents.
-    source_name1 = "Sensor1" # signal1.metadata.metadata["device_id"]
+    source_name1 = "Sensor1"  #signal1.metadata.metadata["device_id"]
     source_agent1 = agent_network.add_agent(name=source_name1, agentType=MetrologicalMultiWaveGeneratorAgent)
     source_agent1.init_parameters(signal=signal1, batch_size=batch_size)
 
@@ -50,7 +50,7 @@ def demonstrate_redundancy_agent_onesignal():
     redundancy_agent1 = agent_network.add_agent(name=redundancy_name1, agentType=RedundancyAgent)
     redundancy_agent1.init_parameters1(sensor_key_list=sensor_key_list, calc_type="lcss", n_pr=n_pr, problim=problim)
     # prior knowledge needed for redundant evaluation of the data
-    redundancy_agent1.init_parameters2(fsam=fsam, f1=f1, f2=f2, ampl_ratio=ampl1/ampl2, phi1=phi1, phi2=phi2)
+    redundancy_agent1.init_parameters2(fsam=fsam, f1=f1, f2=f2, ampl_ratio=ampl1 / ampl2, phi1=phi1, phi2=phi2)
 
     # Initialize metrologically enabled plotting agent. Agent name cannot contain spaces!!
     monitor_agent1 = agent_network.add_agent(name="MonitorAgent_SensorValues", agentType=MetrologicalMonitorAgent)
