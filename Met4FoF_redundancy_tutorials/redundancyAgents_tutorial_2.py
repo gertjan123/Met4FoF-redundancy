@@ -13,7 +13,7 @@ from Met4FoF_redundancy.agentMFred.metrological_streams_v2 import MetrologicalMu
 from Met4FoF_redundancy.agentMFred.redundancyAgents1 import MetrologicalMultiWaveGeneratorAgent, RedundancyAgent
 
 
-def main():
+def demonstrate_redundancy_agent_onesignal():
     """
     At the start of the main module all important parameters are defined. Then the agents are defined and the network
     is started. The network and the calculated results can be monitored in a browser at the address http://127.0.0.1:8050/.
@@ -69,4 +69,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    demonstrate_redundancy_agent_onesignal()
