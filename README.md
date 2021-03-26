@@ -23,7 +23,7 @@ The status result of this automatic testing is: [![gertjan123](https://circleci.
 The quality of the code as analyzed by [codacy.com](https://codacy.com) is: [![Codacy Badge](https://app.codacy.com/project/badge/Grade/ad51c2b3f4ee49baa5b4de078a7f3d5d)](https://www.codacy.com/gh/gertjan123/Met4FoF-redundancy/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=gertjan123/Met4FoF-redundancy&amp;utm_campaign=Badge_Grade)
 
 ## Code coverage
-The code coverage of the test suite as analyzed by [codecov.io](https://codecov.io) is:
+The code coverage of the test suite as analyzed by [codecov.io](https://codecov.io) is: [![codecov](https://codecov.io/gh/gertjan123/Met4FoF-redundancy/branch/master/graph/badge.svg?token=4AM461USOL)](https://codecov.io/gh/gertjan123/Met4FoF-redundancy)
 
 
 ## Acknowledgment
