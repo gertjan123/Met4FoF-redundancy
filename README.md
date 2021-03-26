@@ -1,5 +1,8 @@
 # Met4FoF-redundancy software package
-
+[![Documentation Status](https://readthedocs.org/projects/met4fof-redundancy/badge/?version=master)](https://met4fof-redundancy.readthedocs.io/en/master/?badge=master)
+[![gertjan123](https://circleci.com/gh/gertjan123/Met4FoF-redundancy.svg?style=shield)](https://app.circleci.com/pipelines/github/gertjan123)
+ [![Codacy Badge](https://app.codacy.com/project/badge/Grade/ad51c2b3f4ee49baa5b4de078a7f3d5d)](https://www.codacy.com/gh/gertjan123/Met4FoF-redundancy/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=gertjan123/Met4FoF-redundancy&amp;utm_campaign=Badge_Grade)
+[![codecov](https://codecov.io/gh/gertjan123/Met4FoF-redundancy/branch/master/graph/badge.svg?token=4AM461USOL)](https://codecov.io/gh/gertjan123/Met4FoF-redundancy)
 
 ## Introduction
 
