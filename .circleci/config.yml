@@ -15,7 +15,8 @@ executors:
 workflows:
   build_and_test_virtual_environments:
     jobs:
-      - test_Met4FoF-redundancy
+      - test_Met4FoF-redundancy:
+	      send_cov: true
 
 
 commands:
