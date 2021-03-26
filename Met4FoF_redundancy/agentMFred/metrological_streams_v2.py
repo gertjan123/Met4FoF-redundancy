@@ -1,42 +1,16 @@
 """
-This module contains the definition of a metrological datastream that can be used to generate data for usage in the agentMET4FOF framework.
-
+This module contains the definition of a metrological datastream that can be used to
+generate data for usage in the agentMET4FOF framework.
 """
 
 
 import numpy as np
-from agentMET4FOF.streams import DataStreamMET4FOF
+from agentMET4FOF.metrological_streams import MetrologicalDataStreamMET4FOF
 from scipy.stats import norm
 
+from typing import Any, Iterable, Optional, Tuple, Union
 
-class MetrologicalDataStreamMET4FOF_v2(DataStreamMET4FOF):
-    """
-    Class to request time-series data points of a signal including uncertainty information.
-    """
-    batch_size1 = 1
-
-    def init_parameters(self, batch_size1):
-        self.batch_size1 = batch_size1
-
-    def __init__(self):
-        super().__init__()
-
-    def _next_sample_generator(self, batch_size=10):  # =1
-        """
-        Internal method for generating a batch of samples from the generator function. Overrides
-        _next_sample_generator() from DataStreamMET4FOF. Includes time uncertainty ut and measurement uncertainty
-        uv to sample
-        """
-        time_arr = np.arange(self.sample_idx, self.sample_idx + self.batch_size1, 1) / self.sfreq
-        self.sample_idx += batch_size
-        time_arr = time_arr.reshape((len(time_arr), 1))
-        time_unc_arr = 0.005 * np.ones_like(time_arr)
-        value_arr, value_unc_arr = self.generator_function(time_arr, **self.generator_parameters)
-        data_arr2d = np.concatenate((time_arr, time_unc_arr, value_arr, value_unc_arr), 1)
-        return data_arr2d
-
-
-class MetrologicalMultiWaveGenerator(MetrologicalDataStreamMET4FOF_v2):
+class MetrologicalMultiWaveGenerator(MetrologicalDataStreamMET4FOF):
     """
     Class to generate data as a sum of cosine wave and additional Gaussian noise.
     Values with associated uncertainty are returned.
@@ -53,29 +27,56 @@ class MetrologicalMultiWaveGenerator(MetrologicalDataStreamMET4FOF_v2):
               array with amplitudes of components included in the signal
     phase_ini_arr:  np.ndarray of float
               array with initial phases of components included in the signal
-    exp_unc_abs: float
-                absolute expanded uncertainty of each data point of the signal
     """
 
-    def __init__(self, sfreq= 500, intercept=0, freq_arr=np.array([50]), ampl_arr=np.array([1]),
-                             phase_ini_arr=np.array([0]), expunc_abs=0.1):
-        super().__init__()
-        self.set_metadata("DataGenerator","time","s", ("m"), ("kg"), "data generator")
-        self.set_generator_function(generator_function=self.multi_wave_function, sfreq=sfreq,
-                                    intercept=intercept, freq_arr=freq_arr, ampl_arr=ampl_arr,
-                                    phase_ini_arr=phase_ini_arr, expunc_abs=expunc_abs)
+    def __init__(
+                 self,
+                 sfreq: int = 500,
+                 freq_arr: np.array = np.array([50]),
+                 ampl_arr: np.array = np.array([1]),
+                 phase_ini_arr: np.array = np.array([0]),
+                 intercept: float = 0,
+                 device_id: str = "DataGenerator",
+                 time_name: str = "time",
+                 time_unit: str = "s",
+                 quantity_names: Union[str, Tuple[str, ...]] = ("Length", "Mass"),
+                 quantity_units: Union[str, Tuple[str, ...]] = ("m", "kg"),
+                 misc: Optional[Any] = " Generator for a linear sum of cosines",
+                 value_unc: Union[float, Iterable[float]] = 0.1,
+                 time_unc: Union[float, Iterable[float]] = 0,
+                 noisy: bool = True
+                 ):
+        super(MetrologicalMultiWaveGenerator, self).__init__(
+            value_unc=value_unc, time_unc=time_unc
+        )
+        self.set_metadata(
+            device_id=device_id,
+            time_name=time_name,
+            time_unit=time_unit,
+            quantity_names=quantity_names,
+            quantity_units=quantity_units,
+            misc=misc
+        )
+        self.value_unc = value_unc
+        self.time_unc = time_unc
+        self.set_generator_function(
+            generator_function=self._multi_wave_function,
+            sfreq=sfreq,
+            intercept=intercept,
+            freq_arr=freq_arr,
+            ampl_arr=ampl_arr,
+            phase_ini_arr=phase_ini_arr,
+            noisy=noisy
+        )
 
-    def multi_wave_function(self, time_arr, intercept=0, freq_arr=np.array([50]), ampl_arr=np.array([1]),
-                             phase_ini_arr=np.array([0]), expunc_abs=0.1):
-        value_arr = intercept + expunc_abs/2 * norm.rvs(size=time_arr.shape)
-        n_comps = len(freq_arr)
-        for i_comp in range(n_comps):
-            value_arr = value_arr + ampl_arr[i_comp] * np.cos(2 * np.pi * freq_arr[i_comp] * time_arr +
-                                                              phase_ini_arr[i_comp])
+    def _multi_wave_function(self, time, intercept, freq_arr, ampl_arr,
+                             phase_ini_arr, noisy):
 
-        value_expunc_arr = expunc_abs * np.ones_like(value_arr)
-        # print('value_arr: ', value_arr)
-        return value_arr, value_expunc_arr
+        value_arr = intercept
+        if noisy:
+            value_arr += self.value_unc / 2 * norm.rvs(size=time.shape)
 
+        for ampl, freq, phase_ini in zip(freq_arr, ampl_arr, phase_ini_arr):
+            value_arr = value_arr + ampl * np.cos(2 * np.pi * freq * time + phase_ini)
 
-
+        return value_arr
