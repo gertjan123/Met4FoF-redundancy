@@ -8,8 +8,15 @@ import numpy as np
 from agentMET4FOF.agents import AgentNetwork
 from agentMET4FOF.metrological_agents import MetrologicalMonitorAgent
 
-from Met4FoF_redundancy.agentMFred.metrological_streams_v2 import MetrologicalMultiWaveGenerator
-from Met4FoF_redundancy.agentMFred.redundancyAgents1 import MetrologicalMultiWaveGeneratorAgent, RedundancyAgent
+
+from Met4FoF_redundancy.agentMFred.metrological_streams_v2 import (
+    MetrologicalMultiWaveGenerator,
+)
+
+from Met4FoF_redundancy.agentMFred.redundancyAgents1 import (
+    MetrologicalMultiWaveGeneratorAgent,
+    RedundancyAgent,
+)
 
 
 def demonstrate_redundancy_agent_four_signals():

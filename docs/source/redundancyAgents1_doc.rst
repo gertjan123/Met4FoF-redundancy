@@ -11,25 +11,25 @@ Details of the different modules are presented in the next sections.
 
 Details of the module :mod:`metrological_streams_v2`
 ----------------------------------------------------
-.. automodule:: agentMFred.metrological_streams_v2
+.. automodule:: Met4FoF_redundancy.agentMFred.metrological_streams_v2
     :members:
 
 
 Details of the module :mod:`redundancyAgents1`
 -------------------------------------------------
-.. automodule:: agentMFred.redundancyAgents1
+.. automodule:: Met4FoF_redundancy.agentMFred.redundancyAgents1
     :members:
 
 
 Details of the module :mod:`redundancyAgents_tutorial_1`
 ---------------------------------------------------------
-.. automodule:: agentMFred.redundancyAgents_tutorial_1
+.. automodule:: Met4FoF_redundancy_tutorials.redundancyAgents_tutorial_1
     :members:
 
 
 Details of the module :mod:`redundancyAgents_tutorial_2`
 ---------------------------------------------------------
-.. automodule:: agentMFred.redundancyAgents_tutorial_2
+.. automodule:: Met4FoF_redundancy_tutorials.redundancyAgents_tutorial_2
     :members:
 
 

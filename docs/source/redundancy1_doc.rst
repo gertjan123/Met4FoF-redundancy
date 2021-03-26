@@ -9,15 +9,12 @@ In this section some method for analysing redundant measurement data is presente
 
 Details of the different modules are presented in the next sections.
 
-Details of the module :mod:`test1`
----------------------------------------
-.. automodule:: MFred.test1
-    :members:
-
-
-Details of the module :mod:`redundancy1`
+Details of the main module :mod:`redundancy1`
 ---------------------------------------------
-.. automodule:: MFred.redundancy1
+.. automodule:: Met4FoF_redundancy.MFred.redundancy1
     :members:
 
-
+Details of the test module :mod:`test1`
+---------------------------------------
+.. automodule:: test_redundancy.test_MFred
+    :members:
