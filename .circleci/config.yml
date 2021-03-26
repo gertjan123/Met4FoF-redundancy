@@ -70,7 +70,9 @@ commands:
     - run:
         name: Run tests
         command: |
-          source venv/bin/activate
+          pwd
+		  ls -al
+		  source venv/bin/activate
           pytest -v --junitxml=test-results/junit.xml \
           << parameters.subtree >> | tee test-results/pytest.log
 
