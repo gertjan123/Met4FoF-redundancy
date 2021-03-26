@@ -136,7 +136,7 @@ jobs:
                 name: Upload coverage report
                 command: |
                   source venv/bin/activate
-				  CODECOV_TOKEN='615ae7da-d644-4ab1-9a9f-2fa86a178035'
-				  echo $CODECOV_TOKEN
+                  CODECOV_TOKEN='615ae7da-d644-4ab1-9a9f-2fa86a178035'
+                  echo $CODECOV_TOKEN
                   bash <(curl -s https://codecov.io/bash)
                   
