@@ -54,6 +54,7 @@ commands:
           pip install --upgrade pip pip-tools
           pip install --upgrade numpy scipy uncertainties
           pip-sync requirements/requirements.txt
+		  pip install pytest-cov
     - save_cache:
         paths:
           - ./venv
@@ -74,7 +75,7 @@ commands:
           pwd
           ls -al
           source venv/bin/activate
-          pytest -v --cov=. --junitxml=test-results/junit.xml \
+          pytest-cov -v --cov=. --junitxml=test-results/junit.xml \
           << parameters.subtree >> | tee test-results/pytest.log
 
 jobs:
