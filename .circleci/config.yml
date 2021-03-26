@@ -75,7 +75,7 @@ commands:
           pwd
           ls -al
           source venv/bin/activate
-          pytest-cov -v --cov=. --junitxml=test-results/junit.xml \
+          pytest -v --cov=. --junitxml=test-results/junit.xml \
           << parameters.subtree >> | tee test-results/pytest.log
 
 jobs:
