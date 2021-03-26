@@ -122,7 +122,7 @@ jobs:
             Met4FoF-redundancy-{{ checksum "requirements/requirements.txt" }}-{{ checksum "requirements/dev-requirements.txt" }}
       # Run tests! We use pytest's test-runner.
       - run_venv_tests:
-          subtree: Met4FoF-redundancy/test-redundancy
+          subtree: repo/Met4FoF-redundancy/test-redundancy
           
           
       # Upload coverage report if the according parameter is set to `true`.
