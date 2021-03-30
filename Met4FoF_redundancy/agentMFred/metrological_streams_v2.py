@@ -10,6 +10,7 @@ from scipy.stats import norm
 
 from typing import Any, Iterable, Optional, Tuple, Union
 
+
 class MetrologicalMultiWaveGenerator(MetrologicalDataStreamMET4FOF):
     """
     Class to generate data as a sum of cosine wave and additional Gaussian noise.
@@ -46,7 +47,7 @@ class MetrologicalMultiWaveGenerator(MetrologicalDataStreamMET4FOF):
                  time_unc: Union[float, Iterable[float]] = 0,
                  noisy: bool = True
                  ):
-        super(MetrologicalMultiWaveGenerator, self).__init__(
+        super().__init__(
             value_unc=value_unc, time_unc=time_unc
         )
         self.set_metadata(
