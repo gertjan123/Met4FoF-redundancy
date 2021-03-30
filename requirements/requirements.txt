@@ -2,4 +2,4 @@
 # itertools: not needed, already included in python
 numpy
 scipy
-agentMET4FOF==0.6.1
+agentMET4FOF==0.6.2
