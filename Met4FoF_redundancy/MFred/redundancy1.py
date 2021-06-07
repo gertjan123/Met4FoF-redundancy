@@ -48,6 +48,11 @@ class ColumnNotZeroError(Exception):
     """
     pass
 
+class AllColumnsZeroSum(Exception):
+    """
+    Custom exception to handle the case when all columns have zero sum
+    """
+    pass
 
 def calc_consistent_estimates_no_corr(y_arr2d, uy_arr2d, prob_lim):
     """
@@ -178,7 +183,7 @@ def calc_best_estimate(y_arr, vy_arr2d, problim):
                 observed value of chi-squared, used for consistency evaluation
     """
     # print('y_arr.shape = ', y_arr.shape)
-    print(f'cbe y_arr = {y_arr}')
+    # print(f'cbe y_arr = {y_arr}')
     n_estims = len(y_arr)
 
     if n_estims == 1:
@@ -416,7 +421,7 @@ def calc_best_est_lin_sys(a_arr, a_arr2d, x_arr, vx_arr2d, problim):
     chi2obs:    float
                 observed chi-squared value
     """
-    print('start calc_best_est_lin_sys')
+    #print('start calc_best_est_lin_sys')
     epszero = 1e-10  # some small constant used for some checks
 
     # The main procedure only works when vy_arr2d has full rank. Therefore first a_arr, a_arr2d and vx_arr2d need to be
@@ -426,18 +431,18 @@ def calc_best_est_lin_sys(a_arr, a_arr2d, x_arr, vx_arr2d, problim):
     ared_arr = a_arr
     ared_arr2d = a_arr2d
 
-  #  print('cbels: x_arr = ', x_arr)
-  #  print('cbels: a_arr2d = ', a_arr2d)
+    #  print('cbels: x_arr = ', x_arr)
+    #  print('cbels: a_arr2d = ', a_arr2d)
 
     # Reduce the system if the covariance matrix vx_arr2d is rank deficient.
     while np.linalg.matrix_rank(vxred_arr2d) < vxred_arr2d.shape[0]:
-        print('Reducing Vx. No of rows = ', vxred_arr2d.shape[0], ', rank = ', np.linalg.matrix_rank(vxred_arr2d))
+        # print('Reducing Vx. No of rows = ', vxred_arr2d.shape[0], ', rank = ', np.linalg.matrix_rank(vxred_arr2d))
         [xred_arr, vxred_arr2d, ared_arr, ared_arr2d] = reduce_vx(xred_arr, vxred_arr2d, ared_arr, ared_arr2d, epszero)
 
     # Reduce the system if a_arr2d has more rows than its rank.
     while ared_arr2d.shape[0] > np.linalg.matrix_rank(ared_arr2d):
-        print('Reducing A. No of rows = ', ared_arr2d.shape[0], ', rank = ', np.linalg.matrix_rank(ared_arr2d))
-        print(f'ared_arr2d: {ared_arr2d}')
+        # print('Reducing A. No of rows = ', ared_arr2d.shape[0], ', rank = ', np.linalg.matrix_rank(ared_arr2d))
+        # print(f'ared_arr2d: {ared_arr2d}')
         ind_rem = ind_reduce_a(ared_arr2d, epszero)
         n_rows = ared_arr2d.shape[0]
         indrowskeep = np.concatenate((np.arange(0, ind_rem), np.arange(ind_rem + 1, n_rows)))
@@ -445,10 +450,10 @@ def calc_best_est_lin_sys(a_arr, a_arr2d, x_arr, vx_arr2d, problim):
         ared_arr2d = ared_arr2d[indrowskeep, ]
 
     # calculate y vector and Vy matrix
-    print('ared_arr2d: ', ared_arr2d)
-    print('ared_arr: ', ared_arr.shape)
-    print('ared_arr2d: ', ared_arr2d.shape)
-    print('xred_arr: ', xred_arr.shape)
+    #print('ared_arr2d: ', ared_arr2d)
+    #print('ared_arr: ', ared_arr.shape)
+    #print('ared_arr2d: ', ared_arr2d.shape)
+    #print('xred_arr: ', xred_arr.shape)
     y_arr = ared_arr + np.dot(ared_arr2d, xred_arr)
     vy_arr2d = np.matmul(np.matmul(ared_arr2d, vxred_arr2d), np.transpose(ared_arr2d))
 
@@ -497,7 +502,7 @@ def calc_lcss(a_arr, a_arr2d, x_arr, vx_arr2d, problim):
     -------
 
     """
-    print('start calc_lcss')
+    # print('start calc_lcss')
     epszero = 1e-7 # epsilon for rank check
     eps_chi2 = 1e-7 # epsilon for chi2 equivalence check
 
@@ -548,7 +553,7 @@ def calc_lcss(a_arr, a_arr2d, x_arr, vx_arr2d, problim):
                 indnonzero[indzero] = False # positions that are zero are false
                 indnonzero = np.where(indnonzero) # conversion to indices instead of boolean array
                 if len(indnonzero) == 0:
-                    print("ERROR: All columns have zero sum!")
+                    raise AllColumnsZeroSum(f'All colums have zero sum!')
                 b = q1[:, indnonzero[0]] # b is column vector with no zero column sum
                 for i_zero in range(len(indzero)):
                     q1[:, indzero[i_zero]] = q1[:, indzero[i_zero]] + b  # add b to prevent zero column sum

@@ -270,3 +270,9 @@ def test_calc_lcss():
         "accepted with probability %4.4f, whereas %4.4f is expected."
         % (n_reps, frackeep, problim)
     )
+
+if __name__ == '__main__':
+    test_calc_consistent_estimates_no_corr()
+    test_calc_best_estimate()
+    test_calc_lcs()
+    test_calc_lcss()
