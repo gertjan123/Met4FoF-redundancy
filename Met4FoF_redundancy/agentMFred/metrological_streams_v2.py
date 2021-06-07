@@ -47,7 +47,7 @@ class MetrologicalMultiWaveGenerator(MetrologicalDataStreamMET4FOF):
                  noisy: bool = True
                  ):
         super(MetrologicalMultiWaveGenerator, self).__init__(
-            # value_unc=value_unc, time_unc=time_unc
+           # value_unc=value_unc, time_unc=time_unc
         )
         self.set_metadata(
             device_id=device_id,
