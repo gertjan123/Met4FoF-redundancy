@@ -48,11 +48,13 @@ class ColumnNotZeroError(Exception):
     """
     pass
 
+
 class AllColumnsZeroSum(Exception):
     """
     Custom exception to handle the case when all columns have zero sum
     """
     pass
+
 
 def calc_consistent_estimates_no_corr(y_arr2d, uy_arr2d, prob_lim):
     """
@@ -553,7 +555,7 @@ def calc_lcss(a_arr, a_arr2d, x_arr, vx_arr2d, problim):
                 indnonzero[indzero] = False # positions that are zero are false
                 indnonzero = np.where(indnonzero) # conversion to indices instead of boolean array
                 if len(indnonzero) == 0:
-                    raise AllColumnsZeroSum(f'All colums have zero sum!')
+                    raise AllColumnsZeroSum('All colums have zero sum!')
                 b = q1[:, indnonzero[0]] # b is column vector with no zero column sum
                 for i_zero in range(len(indzero)):
                     q1[:, indzero[i_zero]] = q1[:, indzero[i_zero]] + b  # add b to prevent zero column sum
@@ -568,7 +570,7 @@ def calc_lcss(a_arr, a_arr2d, x_arr, vx_arr2d, problim):
             ared_arr2d = ared2_arr2d
             # print('ared_arr2d = ', ared_arr2d)
             if np.linalg.norm(ared_arr2d[:, boolremove_arr]) > epszero:
-                raise ColumnNotZeroError(f'These columns of A should be zero by now!')
+                raise ColumnNotZeroError('These columns of A should be zero by now!')
 
             ared_arr2d = ared_arr2d[:, sublistsenskeep]  # np.invert(boolremove_arr)] # reduce the matrix A by removing the appropriate columns of A, which are zero anyway.
 
