@@ -18,11 +18,11 @@ setup(
     long_description=get_readme(),
     long_description_content_type="text/markdown",
     url="https://github.com/gertjan123/Met4FoF-redundancy",
-    author="Gertjan (G.J.P.) Kok",
+    author="Gertjan Kok",
     author_email="GKok@vsl.nl",
     packages=find_packages(exclude=["test_redundancy"]),
     zip_safe=False,
-    python_requires=">=3.6",
+    python_requires=">=3.8",
     install_requires=[
         "numpy",
         "scipy",
