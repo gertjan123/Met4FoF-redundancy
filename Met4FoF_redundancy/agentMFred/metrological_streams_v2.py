@@ -10,9 +10,10 @@ from scipy.stats import norm
 
 from typing import Any, Iterable, Optional, Tuple, Union
 
+
 class MetrologicalMultiWaveGenerator(MetrologicalDataStreamMET4FOF):
     """
-    Class to generate data as a sum of cosine wave and additional Gaussian noise.
+    Class to generate data as a sum of cosine waves and additional Gaussian noise.
     Values with associated uncertainty are returned.
 
     Parameters
@@ -47,7 +48,7 @@ class MetrologicalMultiWaveGenerator(MetrologicalDataStreamMET4FOF):
                  noisy: bool = True
                  ):
         super(MetrologicalMultiWaveGenerator, self).__init__(
-           # value_unc=value_unc, time_unc=time_unc
+            value_unc=value_unc, time_unc=time_unc
         )
         self.set_metadata(
             device_id=device_id,
@@ -74,7 +75,7 @@ class MetrologicalMultiWaveGenerator(MetrologicalDataStreamMET4FOF):
 
         value_arr = intercept
         if noisy:
-            value_arr += self.value_unc / 2 * norm.rvs(size=time.shape)
+            value_arr += self.value_unc * norm.rvs(size=time.shape)
 
         for freq, ampl, phase_ini in zip(freq_arr, ampl_arr, phase_ini_arr):
             value_arr = value_arr + ampl * np.cos(2 * np.pi * freq * time + phase_ini)

@@ -58,8 +58,7 @@ def demonstrate_redundancy_agent_four_signals():
     redundancy_agent1.init_parameters1(sensor_key_list=sensor_key_list, n_pr=n_pr, problim=problim,  calc_type="lcs")
 
     # Initialize metrologically enabled plotting agent.
-    monitor_agent1 = agent_network.add_agent(name="MonitorAgent_SensorValues",
-                                             agentType=MetrologicalMonitorAgent)
+    monitor_agent1 = agent_network.add_agent(name="MonitorAgent_SensorValues",      agentType=MetrologicalMonitorAgent)
     monitor_agent2 = agent_network.add_agent(name="MonitorAgent_RedundantEstimate", agentType=MetrologicalMonitorAgent)
 
     # Bind agents.

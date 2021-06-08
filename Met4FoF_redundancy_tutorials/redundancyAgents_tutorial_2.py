@@ -28,7 +28,7 @@ def demonstrate_redundancy_agent_onesignal():
     phi2 = 2
     ampl1 = 230
     ampl2 = 20
-    exp_unc_abs = 0.2  # absolute expanded uncertainty
+    value_unc = 0.1  # standard uncertainty
     problim = 0.95
 
     # start agent network server
@@ -36,7 +36,7 @@ def demonstrate_redundancy_agent_onesignal():
 
     # Initialize signal generating class outside of agent framework.
     signal1 = MetrologicalMultiWaveGenerator(sfreq=fsam, freq_arr=np.array([f1, f2]), ampl_arr=np.array([ampl1, ampl2]),
-                                             phase_ini_arr=np.array([phi1, phi2]), value_unc=exp_unc_abs)
+                                             phase_ini_arr=np.array([phi1, phi2]), value_unc=value_unc, time_unc=0.0)
     # signal1.init_parameters(batch_size1=batch_size)
 
     # Data source agents.
