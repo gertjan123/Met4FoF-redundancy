@@ -9,6 +9,7 @@ module :mod:`redundancy1`. These test functions are:
 
 """
 
+import pytest
 import numpy as np
 from Met4FoF_redundancy.MFred.redundancy1 import (
     calc_best_estimate,
@@ -23,6 +24,7 @@ from Met4FoF_redundancy.MFred.redundancy1 import (
 from scipy.stats import multivariate_normal as mvn
 
 
+@pytest.mark.cenc
 def test_calc_consistent_estimates_no_corr():
     """
     Test function for calc_consistent_estimates_no_corr(), implementing two test cases.
@@ -58,6 +60,7 @@ def test_calc_consistent_estimates_no_corr():
     print_output_cbe(isconsist_arr, ybest_arr, uybest_arr, chi2obs_arr)
 
 
+@pytest.mark.cbe
 def test_calc_best_estimate():
     """
     Test function for calc_best_estimate.
@@ -101,6 +104,8 @@ def test_calc_best_estimate():
         raise ValueError(f'The experimental fraction {frackeep:4.4f} deviated more than {difFracMax:4.4f} ' 
                          'from the expected fraction {problim:4.4f}')
 
+
+@pytest.mark.lcs
 def test_calc_lcs():
     """
     Test function for :func:`calc_lcs`.
@@ -167,6 +172,7 @@ def test_calc_lcs():
                          'from the expected fraction {problim:4.4f}')
 
 
+@pytest.mark.lcss
 def test_calc_lcss():
     """
     Test function for method :func:`calc_lcss`.
@@ -277,8 +283,8 @@ def test_calc_lcss():
                          f'from the expected fraction {problim:4.4f}!')
 
 
-if __name__ == '__main__':
-    test_calc_consistent_estimates_no_corr()
-    test_calc_best_estimate()
-    test_calc_lcs()
-    test_calc_lcss()
+#if __name__ == '__main__':
+#    test_calc_consistent_estimates_no_corr()
+#    test_calc_best_estimate()
+#    test_calc_lcs()
+#    test_calc_lcss()
