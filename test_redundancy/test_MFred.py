@@ -283,8 +283,3 @@ def test_calc_lcss():
                          f'from the expected fraction {problim:4.4f}!')
 
 
-#if __name__ == '__main__':
-#    test_calc_consistent_estimates_no_corr()
-#    test_calc_best_estimate()
-#    test_calc_lcs()
-#    test_calc_lcss()
